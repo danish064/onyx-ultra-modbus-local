@@ -1,5 +1,5 @@
-const net = require('net');
-const Modbus = require('jsmodbus');
+import net from 'net';
+import Modbus from 'jsmodbus';
 
 // Parse IP from command line arguments
 const host = process.argv[2];

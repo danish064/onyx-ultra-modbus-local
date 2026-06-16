@@ -1,6 +1,6 @@
-const express = require('express');
-const net = require('net');
-const Modbus = require('jsmodbus');
+import express from 'express';
+import net from 'net';
+import Modbus from 'jsmodbus';
 
 const app = express();
 app.use(express.json());
