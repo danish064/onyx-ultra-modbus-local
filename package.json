@@ -2,11 +2,11 @@
   "name": "solarmax-onyx-api",
   "version": "1.0.0",
   "description": "API to read live data from Solarmax Onyx PV 9000 inverter using Modbus TCP",
-  "main": "server.js",
+  "main": "backend/server.js",
   "type": "module",
   "scripts": {
-    "start": "node server.js",
-    "verify": "node verify.js"
+    "start": "node backend/server.js",
+    "verify": "node scripts/verify.js"
   },
   "dependencies": {
     "express": "^4.19.2",
