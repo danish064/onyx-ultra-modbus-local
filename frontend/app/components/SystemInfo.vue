@@ -62,6 +62,30 @@
         </span>
       </div>
 
+      <!-- UPS Load (Heavy) Parameters -->
+      <div class="info-row">
+        <span class="info-label">UPS Output (Heavy)</span>
+        <span class="info-value">
+          {{ getVal("load_voltage").toFixed(0) }} V / {{ getVal("load_current").toFixed(1) }} A / {{ getVal("grid_frequency").toFixed(1) }} Hz
+        </span>
+      </div>
+
+      <!-- Light Load Parameters -->
+      <div class="info-row">
+        <span class="info-label">Light Load Bus</span>
+        <span class="info-value">
+          {{ formatWatts(getVal("light_load_power")) }} ({{ calculateCurrent(getVal("light_load_power")).toFixed(1) }} A)
+        </span>
+      </div>
+
+      <!-- Smart Load Parameters -->
+      <div class="info-row">
+        <span class="info-label">Smart Load Bus</span>
+        <span class="info-value">
+          {{ formatWatts(getVal("smart_load_power")) }} ({{ calculateCurrent(getVal("smart_load_power")).toFixed(1) }} A)
+        </span>
+      </div>
+
       <!-- Operating Hours -->
       <div class="info-row">
         <span class="info-label">Operating Hours</span>
@@ -107,6 +131,12 @@ function formatWatts(val: number): string {
     return (val / 1000).toFixed(1) + " kW";
   }
   return val.toFixed(0) + " W";
+}
+
+function calculateCurrent(powerW: number): number {
+  const v = getVal("load_voltage");
+  if (v <= 10) return 0;
+  return powerW / v;
 }
 </script>
 

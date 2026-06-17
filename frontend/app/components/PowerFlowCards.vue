@@ -17,15 +17,24 @@
       <div class="card-sub grid-sub-items">
         <div class="sub-item">
           <span class="sub-label">PV1</span>
-          <span class="sub-val">{{ formatWOrKW(getVal("pv1_power")) }}</span>
+          <span class="sub-val">
+            {{ formatWOrKW(getVal("pv1_power")) }}
+            <span class="sub-details">{{ getVal("pv1_voltage").toFixed(0) }}V / {{ getVal("pv1_current").toFixed(1) }}A</span>
+          </span>
         </div>
         <div class="sub-item">
           <span class="sub-label">PV2</span>
-          <span class="sub-val">{{ formatWOrKW(getVal("pv2_power")) }}</span>
+          <span class="sub-val">
+            {{ formatWOrKW(getVal("pv2_power")) }}
+            <span class="sub-details">{{ getVal("pv2_voltage").toFixed(0) }}V / {{ getVal("pv2_current").toFixed(1) }}A</span>
+          </span>
         </div>
-        <div class="sub-item" v-if="getVal('pv3_power') > 0">
+        <div class="sub-item" v-if="getVal('pv3_power') > 0 || getVal('pv3_voltage') > 0">
           <span class="sub-label">PV3</span>
-          <span class="sub-val">{{ formatWOrKW(getVal("pv3_power")) }}</span>
+          <span class="sub-val">
+            {{ formatWOrKW(getVal("pv3_power")) }}
+            <span class="sub-details">{{ getVal("pv3_voltage").toFixed(0) }}V / {{ getVal("pv3_current").toFixed(1) }}A</span>
+          </span>
         </div>
       </div>
     </div>
@@ -120,20 +129,25 @@
       </div>
       <div class="card-sub grid-sub-items">
         <div class="sub-item">
+          <span class="sub-label">UPS (Heavy)</span>
+          <span class="sub-val">
+            {{ getVal("load_voltage").toFixed(0) }}V / {{ getVal("load_current").toFixed(1) }}A
+            <span class="sub-details">{{ getVal("grid_frequency").toFixed(1) }}Hz</span>
+          </span>
+        </div>
+        <div class="sub-item">
           <span class="sub-label">Light Load</span>
-          <span class="sub-val">{{
-            formatWOrKW(getVal("light_load_power"))
-          }}</span>
+          <span class="sub-val">
+            {{ formatWOrKW(getVal("light_load_power")) }}
+            <span class="sub-details">{{ getVal("load_voltage").toFixed(0) }}V / {{ calculateCurrent(getVal("light_load_power")).toFixed(1) }}A</span>
+          </span>
         </div>
         <div class="sub-item">
           <span class="sub-label">Smart Load</span>
-          <span class="sub-val">{{
-            formatWOrKW(getVal("smart_load_power"))
-          }}</span>
-        </div>
-        <div class="sub-item">
-          <span class="sub-label">UPS Voltage</span>
-          <span class="sub-val">{{ getVal("load_voltage").toFixed(0) }}V</span>
+          <span class="sub-val">
+            {{ formatWOrKW(getVal("smart_load_power")) }}
+            <span class="sub-details">{{ getVal("load_voltage").toFixed(0) }}V / {{ calculateCurrent(getVal("smart_load_power")).toFixed(1) }}A</span>
+          </span>
         </div>
       </div>
     </div>
@@ -161,6 +175,12 @@ function formatWOrKW(val: number): string {
     return (val / 1000).toFixed(2) + " kW";
   }
   return val.toFixed(0) + " W";
+}
+
+function calculateCurrent(powerW: number): number {
+  const v = getVal("load_voltage");
+  if (v <= 10) return 0;
+  return powerW / v;
 }
 
 // Battery helper states
@@ -233,6 +253,14 @@ function getGridDirectionText(): string {
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--text-primary);
+}
+
+.sub-details {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-top: 1px;
 }
 
 .highlight-battery {
