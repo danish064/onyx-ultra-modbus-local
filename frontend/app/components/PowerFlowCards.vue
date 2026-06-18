@@ -117,7 +117,7 @@
         <span class="card-value">{{ formatPower(getVal("smart_load_power")) }}</span>
         <span class="card-unit">{{ getPowerUnit(getVal("smart_load_power")) }}</span>
         <span class="card-details-inline" :class="{ 'inline-details--active': getVal('smart_load_power') > 10 }">
-          {{ getVal("load_voltage").toFixed(0) }}V / {{ calculateCurrent(getVal("smart_load_power")).toFixed(1) }}A
+          {{ getVal("load_voltage").toFixed(0) }}V / {{ calculateCurrent(getVal("smart_load_power")).toFixed(1) }}A / {{ getVal("grid_frequency").toFixed(1) }}Hz
         </span>
       </div>
       <div class="card-sub grid-sub-items">
@@ -126,14 +126,14 @@
           <span class="sub-val">
             {{ formatWOrKW(getVal("light_load_power")) }}
             <span class="sub-details">{{ getVal("load_voltage").toFixed(0) }}V / {{
-              calculateCurrent(getVal("light_load_power")).toFixed(1) }}A</span>
+              calculateCurrent(getVal("light_load_power")).toFixed(1) }}A / {{ getVal("grid_frequency").toFixed(1) }}Hz</span>
           </span>
         </div>
         <div class="sub-item" :class="{ 'sub-item--active-load': getVal('load_power') > 10 }">
           <span class="sub-label">Load</span>
           <span class="sub-val">
             {{ formatWOrKW(getVal("load_power")) }}
-            <span class="sub-details">{{ getVal("load_voltage").toFixed(0) }}V / {{ getVal("load_current").toFixed(1) }}A</span>
+            <span class="sub-details">{{ getVal("load_voltage").toFixed(0) }}V / {{ getVal("load_current").toFixed(1) }}A / {{ getVal("grid_frequency").toFixed(1) }}Hz</span>
           </span>
         </div>
         <div class="sub-item" :class="{ 'sub-item--active-load': getVal('load_power') > 10 }">

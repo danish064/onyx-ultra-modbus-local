@@ -53,62 +53,34 @@
 
         <!-- Dynamic Animated Flows -->
         <!-- Solar Flow (PV to Inverter) -->
-        <path
-          v-if="pvPower > 10"
-          d="M 800,50 L 800,250"
-          class="connection-active connection-solar"
-          :style="{ animationDuration: getFlowDuration(pvPower) }"
-        />
+        <path v-if="pvPower > 10" d="M 800,50 L 800,250" class="connection-active connection-solar"
+          :style="{ animationDuration: getFlowDuration(pvPower) }" />
 
         <!-- Battery Flow (Battery to Inverter [Discharging] or Inverter to Battery [Charging]) -->
-        <path
-          v-if="Math.abs(batteryPower) > 10"
-          d="M 250,250 L 800,250"
-          class="connection-active connection-battery"
+        <path v-if="Math.abs(batteryPower) > 10" d="M 250,250 L 800,250" class="connection-active connection-battery"
           :class="{ 'flow-reverse': batteryPower < 0 }"
-          :style="{ animationDuration: getFlowDuration(Math.abs(batteryPower)) }"
-        />
+          :style="{ animationDuration: getFlowDuration(Math.abs(batteryPower)) }" />
 
         <!-- Grid Flow (Grid to Inverter [Import] or Inverter to Grid [Export]) -->
-        <path
-          v-if="Math.abs(gridPower) > 10"
-          d="M 800,250 L 1500,250"
-          class="connection-active connection-grid"
+        <path v-if="Math.abs(gridPower) > 10" d="M 800,250 L 1500,250" class="connection-active connection-grid"
           :class="{ 'flow-reverse': gridPower >= 0 }"
-          :style="{ animationDuration: getFlowDuration(Math.abs(gridPower)) }"
-        />
+          :style="{ animationDuration: getFlowDuration(Math.abs(gridPower)) }" />
 
         <!-- UPS (Heavy) Flow (from T-junction at (1350, 250) up to node at (1350, 90)) -->
-        <path
-          v-if="loadPower > 10"
-          d="M 1350,250 L 1350,90"
-          class="connection-active connection-load"
-          :style="{ animationDuration: getFlowDuration(loadPower) }"
-        />
+        <path v-if="loadPower > 10" d="M 1350,250 L 1350,90" class="connection-active connection-load"
+          :style="{ animationDuration: getFlowDuration(loadPower) }" />
 
         <!-- Load Flow (from T-junction at (1350, 250) down to node at (1350, 410)) -->
-        <path
-          v-if="loadPower > 10"
-          d="M 1350,250 L 1350,410"
-          class="connection-active connection-load"
-          :style="{ animationDuration: getFlowDuration(loadPower) }"
-        />
+        <path v-if="loadPower > 10" d="M 1350,250 L 1350,410" class="connection-active connection-load"
+          :style="{ animationDuration: getFlowDuration(loadPower) }" />
 
         <!-- Light Load Flow (Inverter to Light Load) -->
-        <path
-          v-if="lightLoadPower > 10"
-          d="M 800,250 C 800,320 700,320 700,410"
-          class="connection-active connection-load"
-          :style="{ animationDuration: getFlowDuration(lightLoadPower) }"
-        />
+        <path v-if="lightLoadPower > 10" d="M 800,250 C 800,320 700,320 700,410"
+          class="connection-active connection-load" :style="{ animationDuration: getFlowDuration(lightLoadPower) }" />
 
         <!-- Smart Load Flow (Inverter to Smart Load) -->
-        <path
-          v-if="smartLoadPower > 10"
-          d="M 800,250 C 800,320 900,320 900,410"
-          class="connection-active connection-load"
-          :style="{ animationDuration: getFlowDuration(smartLoadPower) }"
-        />
+        <path v-if="smartLoadPower > 10" d="M 800,250 C 800,320 900,320 900,410"
+          class="connection-active connection-load" :style="{ animationDuration: getFlowDuration(smartLoadPower) }" />
 
 
         <!-- HTML Overlay Nodes using foreignObject -->
@@ -130,43 +102,50 @@
             <div class="node-body">
               <span class="node-title">Battery</span>
               <span class="node-val">{{ formatWOrKW(Math.abs(batteryPower)) }}</span>
-              <span class="node-direction">{{ batteryPower >= 0 ? 'Discharging' : 'Charging' }} ({{ batterySoc }}%)</span>
+              <span class="node-direction">{{ batteryPower >= 0 ? 'Discharging' : 'Charging' }} ({{ batterySoc
+              }}%)</span>
             </div>
           </div>
         </foreignObject>
 
         <!-- GRID NODE (Middle Right) -->
-        <foreignObject x="1425" y="210" width="150" height="80">
-          <div class="node-wrapper node--grid" :class="{ 'node-glow--export': gridPower < 0, 'node--active': Math.abs(gridPower) > 10 }">
+        <foreignObject x="1425" y="190" width="200" height="120">
+          <div class="node-wrapper node--grid"
+            :class="{ 'node-glow--export': gridPower < 0, 'node--active': Math.abs(gridPower) > 10 }">
             <div class="node-icon">⚡</div>
             <div class="node-body">
               <span class="node-title">Grid</span>
               <span class="node-val">{{ formatWOrKW(Math.abs(gridPower)) }}</span>
-              <span class="node-direction">{{ gridPower >= 0 ? 'Importing' : 'Exporting' }}</span>
+              <span class="node-direction">{{ gridPower >= 0 ? 'Importing' : 'Exporting' }} <br> {{
+                gridFrequency.toFixed(1) }}Hz</span>
             </div>
           </div>
         </foreignObject>
 
         <!-- UPS (Heavy) NODE (Top Right-Center, above Grid Line) -->
-        <foreignObject x="1275" y="50" width="150" height="80">
+        <foreignObject x="1275" y="50" width="200" height="100">
           <div class="node-wrapper node--load" :class="{ 'node--active': loadPower > 10 }">
             <div class="node-icon">🔌</div>
             <div class="node-body">
               <span class="node-title">UPS (Heavy)</span>
               <span class="node-val">{{ formatWOrKW(loadPower) }}</span>
-              <span class="node-direction">{{ loadVoltage.toFixed(0) }}V / {{ loadCurrent.toFixed(1) }}A</span>
+              <span class="node-direction" style="text-wrap: nowrap;">{{ loadVoltage.toFixed(0) }}V / {{
+                loadCurrent.toFixed(1) }}A / {{
+                  gridFrequency.toFixed(1) }}Hz</span>
             </div>
           </div>
         </foreignObject>
 
         <!-- LOAD NODE (Bottom Right-Center, below Grid Line) -->
-        <foreignObject x="1275" y="370" width="150" height="80">
+        <foreignObject x="1275" y="370" width="200" height="100">
           <div class="node-wrapper node--load" :class="{ 'node--active': loadPower > 10 }">
             <div class="node-icon">🏠</div>
             <div class="node-body">
               <span class="node-title">Load</span>
               <span class="node-val">{{ formatWOrKW(loadPower) }}</span>
-              <span class="node-direction">{{ loadVoltage.toFixed(0) }}V / {{ loadCurrent.toFixed(1) }}A</span>
+              <span class="node-direction" style="text-wrap: nowrap;">{{ loadVoltage.toFixed(0) }}V / {{
+                loadCurrent.toFixed(1) }}A / {{
+                  gridFrequency.toFixed(1) }}Hz</span>
             </div>
           </div>
         </foreignObject>
@@ -185,25 +164,27 @@
         </foreignObject>
 
         <!-- LIGHT LOAD NODE (Bottom Center-Left) -->
-        <foreignObject x="625" y="370" width="150" height="80">
+        <foreignObject x="570" y="370" width="200" height="100">
           <div class="node-wrapper node--load" :class="{ 'node--active': lightLoadPower > 10 }">
             <div class="node-icon">💡</div>
             <div class="node-body">
               <span class="node-title">Light Load</span>
               <span class="node-val">{{ formatWOrKW(lightLoadPower) }}</span>
-              <span class="node-direction">{{ loadVoltage.toFixed(0) }}V / {{ calculateCurrent(lightLoadPower).toFixed(1) }}A</span>
+              <span class="node-direction" style="text-wrap: nowrap;">{{ loadVoltage.toFixed(0) }}V / {{
+                calculateCurrent(lightLoadPower).toFixed(1) }}A / {{ gridFrequency.toFixed(1) }}Hz</span>
             </div>
           </div>
         </foreignObject>
 
         <!-- SMART LOAD NODE (Bottom Center-Right) -->
-        <foreignObject x="825" y="370" width="150" height="80">
+        <foreignObject x="815" y="370" width="200" height="100">
           <div class="node-wrapper node--load" :class="{ 'node--active': smartLoadPower > 10 }">
             <div class="node-icon">🧠</div>
             <div class="node-body">
               <span class="node-title">Smart Load</span>
               <span class="node-val">{{ formatWOrKW(smartLoadPower) }}</span>
-              <span class="node-direction">{{ loadVoltage.toFixed(0) }}V / {{ calculateCurrent(smartLoadPower).toFixed(1) }}A</span>
+              <span class="node-direction" style="text-wrap: nowrap;">{{ loadVoltage.toFixed(0) }}V / {{
+                calculateCurrent(smartLoadPower).toFixed(1) }}A / {{ gridFrequency.toFixed(1) }}Hz</span>
             </div>
           </div>
         </foreignObject>
@@ -227,6 +208,7 @@ const loadVoltage = computed(() => getVal('load_voltage'));
 const loadCurrent = computed(() => getVal('load_current'));
 const lightLoadPower = computed(() => getVal('light_load_power'));
 const smartLoadPower = computed(() => getVal('smart_load_power'));
+const gridFrequency = computed(() => getVal('grid_frequency'));
 
 const hasPowerFlow = computed(() => {
   return (
@@ -339,6 +321,7 @@ function getFlowDuration(watts: number): string {
   from {
     stroke-dashoffset: 48;
   }
+
   to {
     stroke-dashoffset: 0;
   }
@@ -348,8 +331,8 @@ function getFlowDuration(watts: number): string {
 .node-wrapper {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px;
+  gap: 6px;
+  padding: 4px 4px;
   background: rgba(26, 34, 53, 0.75);
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: var(--radius-md);
@@ -374,7 +357,7 @@ function getFlowDuration(watts: number): string {
 }
 
 .node-title {
-  font-size: 0.65rem;
+  font-size: 0.9rem;
   color: var(--text-muted);
   text-transform: uppercase;
   font-weight: 600;
@@ -382,13 +365,13 @@ function getFlowDuration(watts: number): string {
 }
 
 .node-val {
-  font-size: 0.9rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: var(--text-primary);
 }
 
 .node-direction {
-  font-size: 0.6rem;
+  font-size: 0.9rem;
   color: var(--text-secondary);
   font-weight: 500;
   margin-top: 1px;
@@ -396,10 +379,13 @@ function getFlowDuration(watts: number): string {
 
 /* Color Accents for Node Outlines & Active Glow Animations */
 @keyframes pulse-solar-node {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: var(--shadow-card), 0 0 4px rgba(245, 158, 11, 0.15);
     border-color: rgba(245, 158, 11, 0.2);
   }
+
   50% {
     box-shadow: var(--shadow-card), 0 0 15px rgba(245, 158, 11, 0.45);
     border-color: rgba(245, 158, 11, 0.6);
@@ -407,10 +393,13 @@ function getFlowDuration(watts: number): string {
 }
 
 @keyframes pulse-battery-node {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: var(--shadow-card), 0 0 4px rgba(16, 185, 129, 0.15);
     border-color: rgba(16, 185, 129, 0.2);
   }
+
   50% {
     box-shadow: var(--shadow-card), 0 0 15px rgba(16, 185, 129, 0.45);
     border-color: rgba(16, 185, 129, 0.6);
@@ -418,10 +407,13 @@ function getFlowDuration(watts: number): string {
 }
 
 @keyframes pulse-grid-node {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: var(--shadow-card), 0 0 4px rgba(99, 102, 241, 0.15);
     border-color: rgba(99, 102, 241, 0.2);
   }
+
   50% {
     box-shadow: var(--shadow-card), 0 0 15px rgba(99, 102, 241, 0.45);
     border-color: rgba(99, 102, 241, 0.6);
@@ -429,10 +421,13 @@ function getFlowDuration(watts: number): string {
 }
 
 @keyframes pulse-load-node {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: var(--shadow-card), 0 0 4px rgba(244, 63, 94, 0.15);
     border-color: rgba(244, 63, 94, 0.2);
   }
+
   50% {
     box-shadow: var(--shadow-card), 0 0 15px rgba(244, 63, 94, 0.45);
     border-color: rgba(244, 63, 94, 0.6);
@@ -442,9 +437,11 @@ function getFlowDuration(watts: number): string {
 .node--solar {
   border-left: 3px solid var(--solar);
 }
+
 .node--solar.node--active {
   animation: pulse-solar-node 2.5s infinite ease-in-out;
 }
+
 .node--solar .node-val {
   color: var(--solar);
 }
@@ -452,9 +449,11 @@ function getFlowDuration(watts: number): string {
 .node--grid {
   border-left: 3px solid var(--grid);
 }
+
 .node--grid.node--active {
   animation: pulse-grid-node 2.5s infinite ease-in-out;
 }
+
 .node--grid .node-val {
   color: var(--grid);
 }
@@ -462,9 +461,11 @@ function getFlowDuration(watts: number): string {
 .node--battery {
   border-left: 3px solid var(--battery);
 }
+
 .node--battery.node--active {
   animation: pulse-battery-node 2.5s infinite ease-in-out;
 }
+
 .node--battery .node-val {
   color: var(--battery);
 }
@@ -472,9 +473,11 @@ function getFlowDuration(watts: number): string {
 .node--load {
   border-left: 3px solid var(--load);
 }
+
 .node--load.node--active {
   animation: pulse-load-node 2.5s infinite ease-in-out;
 }
+
 .node--load .node-val {
   color: var(--load);
 }
@@ -540,9 +543,12 @@ function getFlowDuration(watts: number): string {
 }
 
 @keyframes pulse-ring {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.02);
   }
