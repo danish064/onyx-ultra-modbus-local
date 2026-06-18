@@ -20,7 +20,7 @@ export const SENSORS = [
   // Slow Sensors
   { key: "battery_temperature", name: "Battery Temperature", register: 8220, type: "int16", scale: 1, unit: "°C", swap: false },
   { key: "battery_voltage", name: "Battery Voltage", register: 8198, type: "uint16", scale: 0.1, unit: "V", swap: false },
-  { key: "battery_current", name: "Battery Current", register: 8200, type: "int32", scale: 0.01, unit: "A", swap: true },
+  { key: "battery_current", name: "Battery Current", register: 8200, type: "int16", scale: 0.01, unit: "A", swap: false },
   { key: "battery_charge_energy_today", name: "Today Battery Energy Charge", register: 8203, type: "uint32", scale: 0.01, unit: "kWh", swap: false },
   { key: "battery_charge_lifetime_energy", name: "Battery Charge Lifetime Energy", register: 8205, type: "uint32", scale: 0.01, unit: "kWh", swap: false },
   { key: "battery_discharge_energy_today", name: "Battery Discharge Energy Today", register: 8207, type: "uint32", scale: 0.01, unit: "kWh", swap: false },
