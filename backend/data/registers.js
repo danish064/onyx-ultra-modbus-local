@@ -46,7 +46,7 @@ export const SENSORS = [
   { key: "energy_import_today", name: "Energy Import Today", register: 4915, type: "uint32", scale: 0.01, unit: "kWh", swap: true },
   { key: "energy_export_lifetime", name: "Energy Export Lifetime", register: 4872, type: "uint32", scale: 0.01, unit: "kWh", swap: false },
   { key: "energy_export_today", name: "Energy Export Today", register: 4917, type: "uint32", scale: 0.01, unit: "kWh", swap: true },
-  { key: "load_voltage", name: "Load Voltage", register: 4900, type: "uint16", scale: 0.1, unit: "V", swap: false },
+  { key: "load_voltage", name: "Load Voltage", register: 4899, type: "uint16", scale: 0.1, unit: "V", swap: false },
   { key: "load_current", name: "Load Current", register: 4904, type: "int32", scale: 0.01, unit: "A", swap: true },
   { key: "light_load_lifetime_energy", name: "Light Load Lifetime Energy", register: 4962, type: "int32", scale: 0.01, unit: "kWh", swap: false },
   { key: "grid_export_power", name: "Grid Export Power", register: 4099, type: "int32", scale: 0.1, unit: "W", swap: false },
