@@ -19,21 +19,24 @@
           <span class="sub-label">PV1</span>
           <span class="sub-val">
             {{ formatWOrKW(getVal("pv1_power")) }}
-            <span class="sub-details">{{ getVal("pv1_voltage").toFixed(0) }}V / {{ getVal("pv1_current").toFixed(1) }}A</span>
+            <span class="sub-details">{{ getVal("pv1_voltage").toFixed(0) }}V / {{ getVal("pv1_current").toFixed(1)
+            }}A</span>
           </span>
         </div>
         <div class="sub-item">
           <span class="sub-label">PV2</span>
           <span class="sub-val">
             {{ formatWOrKW(getVal("pv2_power")) }}
-            <span class="sub-details">{{ getVal("pv2_voltage").toFixed(0) }}V / {{ getVal("pv2_current").toFixed(1) }}A</span>
+            <span class="sub-details">{{ getVal("pv2_voltage").toFixed(0) }}V / {{ getVal("pv2_current").toFixed(1)
+            }}A</span>
           </span>
         </div>
         <div class="sub-item" v-if="getVal('pv3_power') > 0 || getVal('pv3_voltage') > 0">
           <span class="sub-label">PV3</span>
           <span class="sub-val">
             {{ formatWOrKW(getVal("pv3_power")) }}
-            <span class="sub-details">{{ getVal("pv3_voltage").toFixed(0) }}V / {{ getVal("pv3_current").toFixed(1) }}A</span>
+            <span class="sub-details">{{ getVal("pv3_voltage").toFixed(0) }}V / {{ getVal("pv3_current").toFixed(1)
+            }}A</span>
           </span>
         </div>
       </div>
@@ -59,21 +62,15 @@
       <div class="card-sub grid-sub-items">
         <div class="sub-item">
           <span class="sub-label">SOC</span>
-          <span class="sub-val highlight-battery"
-            >{{ getVal("battery_soc") }}%</span
-          >
+          <span class="sub-val highlight-battery">{{ getVal("battery_soc") }}%</span>
         </div>
         <div class="sub-item">
           <span class="sub-label">Voltage</span>
-          <span class="sub-val"
-            >{{ getVal("battery_voltage").toFixed(1) }}V</span
-          >
+          <span class="sub-val">{{ getVal("battery_voltage").toFixed(1) }}V</span>
         </div>
         <div class="sub-item">
           <span class="sub-label">Current</span>
-          <span class="sub-val"
-            >{{ getVal("battery_current").toFixed(1) }}A</span
-          >
+          <span class="sub-val">{{ getVal("battery_current").toFixed(1) }}A</span>
         </div>
       </div>
     </div>
@@ -104,49 +101,51 @@
         </div>
         <div class="sub-item">
           <span class="sub-label">Import Today</span>
-          <span class="sub-val"
-            >{{ getVal("energy_import_today").toFixed(1) }} kWh</span
-          >
+          <span class="sub-val">{{ getVal("energy_import_today").toFixed(1) }} kWh</span>
         </div>
         <div class="sub-item">
           <span class="sub-label">Frequency</span>
-          <span class="sub-val"
-            >{{ getVal("grid_frequency").toFixed(1) }}Hz</span
-          >
+          <span class="sub-val">{{ getVal("grid_frequency").toFixed(1) }}Hz</span>
         </div>
       </div>
     </div>
 
-    <!-- Load Power Card -->
+    <!-- Smart Load Card -->
     <div class="card card--load">
       <div class="card-header">
-        <span class="card-title">🏠 Load Power</span>
-        <span class="icon-glow">🏠</span>
+        <span class="card-title">🧠 Smart Load Power</span>
+        <span class="icon-glow">🧠</span>
       </div>
       <div class="card-value-wrapper">
-        <span class="card-value">{{ formatPower(getVal("load_power")) }}</span>
-        <span class="card-unit">{{ getPowerUnit(getVal("load_power")) }}</span>
+        <span class="card-value">{{ formatPower(getVal("smart_load_power")) }}</span>
+        <span class="card-unit">{{ getPowerUnit(getVal("smart_load_power")) }}</span>
+        <span class="card-details-inline">
+          {{ getVal("load_voltage").toFixed(0) }}V / {{ calculateCurrent(getVal("smart_load_power")).toFixed(1) }}A
+        </span>
       </div>
       <div class="card-sub grid-sub-items">
+
+        <div class="sub-item">
+          <span class="sub-label">Light Load</span>
+          <span class="sub-val">
+            {{ formatWOrKW(getVal("light_load_power")) }}
+            <span class="sub-details">{{ getVal("load_voltage").toFixed(0) }}V / {{
+              calculateCurrent(getVal("light_load_power")).toFixed(1) }}A</span>
+          </span>
+        </div>
+        <div class="sub-item">
+          <span class="sub-label">Load</span>
+          <span class="sub-val">
+            {{ formatWOrKW(getVal("load_power")) }}
+            <span class="sub-details">{{ getVal("load_voltage").toFixed(0) }}V / {{ getVal("load_current").toFixed(1)
+            }}A</span>
+          </span>
+        </div>
         <div class="sub-item">
           <span class="sub-label">UPS (Heavy)</span>
           <span class="sub-val">
             {{ getVal("load_voltage").toFixed(0) }}V / {{ getVal("load_current").toFixed(1) }}A
             <span class="sub-details">{{ getVal("grid_frequency").toFixed(1) }}Hz</span>
-          </span>
-        </div>
-        <div class="sub-item">
-          <span class="sub-label">Light Load</span>
-          <span class="sub-val">
-            {{ formatWOrKW(getVal("light_load_power")) }}
-            <span class="sub-details">{{ getVal("load_voltage").toFixed(0) }}V / {{ calculateCurrent(getVal("light_load_power")).toFixed(1) }}A</span>
-          </span>
-        </div>
-        <div class="sub-item">
-          <span class="sub-label">Smart Load</span>
-          <span class="sub-val">
-            {{ formatWOrKW(getVal("smart_load_power")) }}
-            <span class="sub-details">{{ getVal("load_voltage").toFixed(0) }}V / {{ calculateCurrent(getVal("smart_load_power")).toFixed(1) }}A</span>
           </span>
         </div>
       </div>
@@ -220,6 +219,17 @@ function getGridDirectionText(): string {
   align-items: baseline;
   gap: 4px;
   position: relative;
+}
+
+.card-details-inline {
+  margin-left: auto;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 3px 8px;
+  border-radius: 6px;
+  align-self: center;
 }
 
 .icon-glow {
