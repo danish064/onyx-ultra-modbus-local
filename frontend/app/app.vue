@@ -6,6 +6,9 @@
       <!-- Power Flow grid (Top values) -->
       <PowerFlowCards />
 
+      <!-- Live Power Flow Animation -->
+      <PowerFlowAnimation />
+
       <!-- Side-by-side Layout for Detailed Stats and Charts -->
       <div class="dashboard-grid-2">
         <BatteryStatus />
@@ -23,6 +26,7 @@ import { onMounted, onUnmounted } from "vue";
 import { useMetrics } from "~/composables/useMetrics";
 import DashboardHeader from "./components/DashboardHeader.vue";
 import PowerFlowCards from "./components/PowerFlowCards.vue";
+import PowerFlowAnimation from "./components/PowerFlowAnimation.vue";
 import BatteryStatus from "./components/BatteryStatus.vue";
 import SystemInfo from "./components/SystemInfo.vue";
 import PowerChart from "./components/PowerChart.vue";
