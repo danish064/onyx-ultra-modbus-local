@@ -101,8 +101,11 @@
           <span class="sub-val">{{ getVal("energy_import_today").toFixed(1) }} kWh</span>
         </div>
         <div class="sub-item">
-          <span class="sub-label">Frequency</span>
-          <span class="sub-val">{{ getVal("grid_frequency").toFixed(1) }}Hz</span>
+          <span class="sub-label">Details</span>
+          <span class="sub-val">
+            {{ getVal("load_voltage").toFixed(0) }}V / {{ calculateCurrent(Math.abs(getVal("grid_power"))).toFixed(1) }}A
+            <span class="sub-details">{{ getVal("grid_frequency").toFixed(1) }}Hz</span>
+          </span>
         </div>
       </div>
     </div>

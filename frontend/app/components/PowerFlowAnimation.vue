@@ -116,8 +116,7 @@
             <div class="node-body">
               <span class="node-title">Grid</span>
               <span class="node-val">{{ formatWOrKW(Math.abs(gridPower)) }}</span>
-              <span class="node-direction">{{ gridPower >= 0 ? 'Importing' : 'Exporting' }} <br> {{
-                gridFrequency.toFixed(1) }}Hz</span>
+              <span class="node-direction" style="text-wrap: nowrap;">{{ gridPower >= 0 ? 'Importing' : 'Exporting' }} <br> {{ loadVoltage.toFixed(0) }}V / {{ calculateCurrent(Math.abs(gridPower)).toFixed(1) }}A / {{ gridFrequency.toFixed(1) }}Hz</span>
             </div>
           </div>
         </foreignObject>
