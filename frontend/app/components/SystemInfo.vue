@@ -1,95 +1,95 @@
 <template>
-  <div class="card card--info fade-in-up">
-    <div class="section-header">
-      <span class="section-header__icon">⚙️</span>
-      <h2 class="section-header__title">System Information & Limits</h2>
+  <div class="bg-card border border-border rounded-[16px] p-6 shadow-card animate-fadeInUp border-l-[3px] border-l-info hover:shadow-[0_0_24px_rgba(56,189,248,0.25)] relative overflow-hidden transition-all duration-250 ease-out hover:-translate-y-[2px]">
+    <div class="flex items-center gap-3 mb-5 pb-3 border-b border-border">
+      <span class="text-[1.4rem]">⚙️</span>
+      <h2 class="text-[1.1rem] font-bold tracking-[-0.01em]">System Information & Limits</h2>
     </div>
 
-    <div class="info-table">
+    <div class="flex flex-col">
       <!-- Inverter Temperature -->
-      <div class="info-row">
-        <span class="info-label">Inverter Temperature</span>
-        <span class="info-value" :style="{ color: tempColor }">
+      <div class="flex justify-between items-center py-3 border-b border-border last:border-b-0">
+        <span class="text-[0.8rem] text-text-secondary">Inverter Temperature</span>
+        <span class="text-[0.9rem] font-semibold text-text-primary" :style="{ color: tempColor }">
           {{ getVal("inverter_internal_temperature").toFixed(1) }} °C
         </span>
       </div>
 
       <!-- Operation Mode -->
-      <div class="info-row">
-        <span class="info-label">Operation Mode</span>
-        <span class="info-value highlight-mode">
+      <div class="flex justify-between items-center py-3 border-b border-border last:border-b-0">
+        <span class="text-[0.8rem] text-text-secondary">Operation Mode</span>
+        <span class="text-[0.9rem] font-semibold text-info bg-info/[0.08] px-2 py-0.5 rounded">
           {{ opModeText }}
         </span>
       </div>
 
       <!-- Energy Produced Today -->
-      <div class="info-row">
-        <span class="info-label">Energy Produced Today</span>
-        <span class="info-value text-solar">
+      <div class="flex justify-between items-center py-3 border-b border-border last:border-b-0">
+        <span class="text-[0.8rem] text-text-secondary">Energy Produced Today</span>
+        <span class="text-[0.9rem] font-semibold text-solar">
           {{ getVal("energy_produced_today").toFixed(1) }} kWh
         </span>
       </div>
 
       <!-- Lifetime Energy -->
-      <div class="info-row">
-        <span class="info-label">Energy Produced (Lifetime)</span>
-        <span class="info-value">
+      <div class="flex justify-between items-center py-3 border-b border-border last:border-b-0">
+        <span class="text-[0.8rem] text-text-secondary">Energy Produced (Lifetime)</span>
+        <span class="text-[0.9rem] font-semibold text-text-primary">
           {{ getVal("energy_produced_lifetime").toFixed(0) }} kWh
         </span>
       </div>
 
       <!-- Peak Power Today -->
-      <div class="info-row">
-        <span class="info-label">Peak Power Today</span>
-        <span class="info-value">
+      <div class="flex justify-between items-center py-3 border-b border-border last:border-b-0">
+        <span class="text-[0.8rem] text-text-secondary">Peak Power Today</span>
+        <span class="text-[0.9rem] font-semibold text-text-primary">
           {{ formatWatts(getVal("peak_production_power_today")) }}
         </span>
       </div>
 
       <!-- Max Grid Charge Limit -->
-      <div class="info-row">
-        <span class="info-label">Max Grid Charge Limit</span>
-        <span class="info-value">
+      <div class="flex justify-between items-center py-3 border-b border-border last:border-b-0">
+        <span class="text-[0.8rem] text-text-secondary">Max Grid Charge Limit</span>
+        <span class="text-[0.9rem] font-semibold text-text-primary">
           {{ formatWatts(getVal("maximum_grid_charging_power")) }}
         </span>
       </div>
 
       <!-- Max Battery Charge Limit -->
-      <div class="info-row">
-        <span class="info-label">Max Battery Charge Limit</span>
-        <span class="info-value">
+      <div class="flex justify-between items-center py-3 border-b border-border last:border-b-0">
+        <span class="text-[0.8rem] text-text-secondary">Max Battery Charge Limit</span>
+        <span class="text-[0.9rem] font-semibold text-text-primary">
           {{ formatWatts(getVal("battery_charging_max_power")) }}
         </span>
       </div>
 
       <!-- UPS Load (Heavy) Parameters -->
-      <div class="info-row">
-        <span class="info-label">UPS Output (Heavy)</span>
-        <span class="info-value">
+      <div class="flex justify-between items-center py-3 border-b border-border last:border-b-0">
+        <span class="text-[0.8rem] text-text-secondary">UPS Output (Heavy)</span>
+        <span class="text-[0.9rem] font-semibold text-text-primary">
           {{ getVal("load_voltage").toFixed(0) }} V / {{ getVal("load_current").toFixed(1) }} A / {{ getVal("grid_frequency").toFixed(1) }} Hz
         </span>
       </div>
 
       <!-- Light Load Parameters -->
-      <div class="info-row">
-        <span class="info-label">Light Load Bus</span>
-        <span class="info-value">
+      <div class="flex justify-between items-center py-3 border-b border-border last:border-b-0">
+        <span class="text-[0.8rem] text-text-secondary">Light Load Bus</span>
+        <span class="text-[0.9rem] font-semibold text-text-primary">
           {{ formatWatts(getVal("light_load_power")) }} ({{ calculateCurrent(getVal("light_load_power")).toFixed(1) }} A)
         </span>
       </div>
 
       <!-- Smart Load Parameters -->
-      <div class="info-row">
-        <span class="info-label">Smart Load Bus</span>
-        <span class="info-value">
+      <div class="flex justify-between items-center py-3 border-b border-border last:border-b-0">
+        <span class="text-[0.8rem] text-text-secondary">Smart Load Bus</span>
+        <span class="text-[0.9rem] font-semibold text-text-primary">
           {{ formatWatts(getVal("smart_load_power")) }} ({{ calculateCurrent(getVal("smart_load_power")).toFixed(1) }} A)
         </span>
       </div>
 
       <!-- Operating Hours -->
-      <div class="info-row">
-        <span class="info-label">Operating Hours</span>
-        <span class="info-value">
+      <div class="flex justify-between items-center py-3 border-b border-border last:border-b-0">
+        <span class="text-[0.8rem] text-text-secondary">Operating Hours</span>
+        <span class="text-[0.9rem] font-semibold text-text-primary">
           {{ getVal("inverter_operating_hours") }} h
         </span>
       </div>
@@ -105,9 +105,9 @@ const { getVal } = useMetrics();
 
 const tempColor = computed(() => {
   const t = getVal("inverter_internal_temperature");
-  if (t >= 70) return "var(--danger)";
-  if (t >= 50) return "var(--warning)";
-  return "var(--success)";
+  if (t >= 70) return "#f87171"; // danger
+  if (t >= 50) return "#fb923c"; // warning
+  return "#34d399"; // success
 });
 
 const opModeText = computed(() => {
@@ -140,43 +140,3 @@ function calculateCurrent(powerW: number): number {
 }
 </script>
 
-<style scoped>
-.info-table {
-  display: flex;
-  flex-direction: column;
-}
-
-.info-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--border);
-}
-
-.info-row:last-child {
-  border-bottom: none;
-}
-
-.info-label {
-  font-size: 0.8rem;
-  color: var(--text-secondary);
-}
-
-.info-value {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.highlight-mode {
-  color: var(--info);
-  background: rgba(56, 189, 248, 0.08);
-  padding: 2px 8px;
-  border-radius: 4px;
-}
-
-.text-solar {
-  color: var(--solar);
-}
-</style>

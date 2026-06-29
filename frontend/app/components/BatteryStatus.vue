@@ -1,78 +1,78 @@
 <template>
-  <div class="card card--battery fade-in-up">
-    <div class="section-header">
-      <span class="section-header__icon">🔋</span>
-      <h2 class="section-header__title">Battery Status & Analytics</h2>
-      <span class="section-header__badge">{{ batteryState }}</span>
+  <div class="bg-card border border-border rounded-[16px] p-6 shadow-card animate-fadeInUp border-l-[3px] border-l-battery hover:shadow-[0_0_24px_rgba(16,185,129,0.25)] relative overflow-hidden transition-all duration-250 ease-out hover:-translate-y-[2px]">
+    <div class="flex items-center gap-3 mb-5 pb-3 border-b border-border">
+      <span class="text-[1.4rem]">🔋</span>
+      <h2 class="text-[1.1rem] font-bold tracking-[-0.01em]">Battery Status & Analytics</h2>
+      <span class="ml-auto text-[0.7rem] font-semibold uppercase tracking-[0.06em] px-2.5 py-1 rounded-full bg-info/10 text-info border border-info/20">{{ batteryState }}</span>
     </div>
 
     <!-- Battery progress gauge -->
-    <div class="gauge-section">
-      <div class="battery-gauge">
+    <div class="mb-6">
+      <div class="w-full h-7 rounded-full overflow-hidden relative border border-battery/15 bg-battery/10">
         <div
-          class="battery-gauge__fill"
+          class="h-full rounded-full relative transition-[width] duration-1000 ease-[cubic-bezier(0.4,0,0.2,1)] after:content-[''] after:absolute after:inset-0 after:bg-[linear-gradient(90deg,transparent_0%,rgba(255,255,255,0.12)_50%,transparent_100%)] after:bg-[length:200%_100%] after:animate-shimmer"
           :style="{ width: `${soc}%`, backgroundColor: gaugeColor }"
         ></div>
-        <div class="battery-gauge__label">{{ soc }}% SOC</div>
+        <div class="absolute inset-0 flex items-center justify-center text-[0.75rem] font-bold text-white [text-shadow:0_1px_3px_rgba(0,0,0,0.5)]">{{ soc }}% SOC</div>
       </div>
     </div>
 
     <!-- Metrics Grid -->
-    <div class="metrics-grid">
-      <div class="metric-block">
-        <span class="metric-label">Battery Voltage</span>
-        <span class="metric-value"
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="bg-white/[0.02] border border-white/[0.03] px-4 py-3 rounded-md flex flex-col gap-1">
+        <span class="text-[0.72rem] text-text-muted uppercase tracking-[0.02em]">Battery Voltage</span>
+        <span class="text-xl font-bold text-text-primary"
           >{{ getVal("battery_voltage").toFixed(1) }}
-          <span class="metric-unit">V</span></span
+          <span class="text-[0.8rem] font-medium text-text-secondary">V</span></span
         >
       </div>
-      <div class="metric-block">
-        <span class="metric-label">Battery Current</span>
-        <span class="metric-value"
+      <div class="bg-white/[0.02] border border-white/[0.03] px-4 py-3 rounded-md flex flex-col gap-1">
+        <span class="text-[0.72rem] text-text-muted uppercase tracking-[0.02em]">Battery Current</span>
+        <span class="text-xl font-bold text-text-primary"
           >{{ getVal("battery_current").toFixed(1) }}
-          <span class="metric-unit">A</span></span
+          <span class="text-[0.8rem] font-medium text-text-secondary">A</span></span
         >
       </div>
-      <div class="metric-block">
-        <span class="metric-label">Active Power</span>
-        <span class="metric-value"
+      <div class="bg-white/[0.02] border border-white/[0.03] px-4 py-3 rounded-md flex flex-col gap-1">
+        <span class="text-[0.72rem] text-text-muted uppercase tracking-[0.02em]">Active Power</span>
+        <span class="text-xl font-bold text-text-primary"
           >{{ getVal("battery_power").toFixed(0) }}
-          <span class="metric-unit">W</span></span
+          <span class="text-[0.8rem] font-medium text-text-secondary">W</span></span
         >
       </div>
-      <div class="metric-block">
-        <span class="metric-label">Temperature</span>
-        <span class="metric-value" :style="{ color: tempColor }"
+      <div class="bg-white/[0.02] border border-white/[0.03] px-4 py-3 rounded-md flex flex-col gap-1">
+        <span class="text-[0.72rem] text-text-muted uppercase tracking-[0.02em]">Temperature</span>
+        <span class="text-xl font-bold text-text-primary" :style="{ color: tempColor }"
           >{{ getVal("battery_temperature").toFixed(1) }}
-          <span class="metric-unit">°C</span></span
+          <span class="text-[0.8rem] font-medium text-text-secondary">°C</span></span
         >
       </div>
-      <div class="metric-block">
-        <span class="metric-label">Charged Today</span>
-        <span class="metric-value text-success"
+      <div class="bg-white/[0.02] border border-white/[0.03] px-4 py-3 rounded-md flex flex-col gap-1">
+        <span class="text-[0.72rem] text-text-muted uppercase tracking-[0.02em]">Charged Today</span>
+        <span class="text-xl font-bold text-success"
           >{{ getVal("battery_charge_energy_today").toFixed(1) }}
-          <span class="metric-unit">kWh</span></span
+          <span class="text-[0.8rem] font-medium text-text-secondary">kWh</span></span
         >
       </div>
-      <div class="metric-block">
-        <span class="metric-label">Discharged Today</span>
-        <span class="metric-value text-danger"
+      <div class="bg-white/[0.02] border border-white/[0.03] px-4 py-3 rounded-md flex flex-col gap-1">
+        <span class="text-[0.72rem] text-text-muted uppercase tracking-[0.02em]">Discharged Today</span>
+        <span class="text-xl font-bold text-load"
           >{{ getVal("battery_discharge_energy_today").toFixed(1) }}
-          <span class="metric-unit">kWh</span></span
+          <span class="text-[0.8rem] font-medium text-text-secondary">kWh</span></span
         >
       </div>
-      <div class="metric-block">
-        <span class="metric-label">Total Charged</span>
-        <span class="metric-value"
+      <div class="bg-white/[0.02] border border-white/[0.03] px-4 py-3 rounded-md flex flex-col gap-1">
+        <span class="text-[0.72rem] text-text-muted uppercase tracking-[0.02em]">Total Charged</span>
+        <span class="text-xl font-bold text-text-primary"
           >{{ getVal("battery_charge_lifetime_energy").toFixed(0) }}
-          <span class="metric-unit">kWh</span></span
+          <span class="text-[0.8rem] font-medium text-text-secondary">kWh</span></span
         >
       </div>
-      <div class="metric-block">
-        <span class="metric-label">Total Discharged</span>
-        <span class="metric-value"
+      <div class="bg-white/[0.02] border border-white/[0.03] px-4 py-3 rounded-md flex flex-col gap-1">
+        <span class="text-[0.72rem] text-text-muted uppercase tracking-[0.02em]">Total Discharged</span>
+        <span class="text-xl font-bold text-text-primary"
           >{{ getVal("battery_discharge_lifetime_energy").toFixed(0) }}
-          <span class="metric-unit">kWh</span></span
+          <span class="text-[0.8rem] font-medium text-text-secondary">kWh</span></span
         >
       </div>
     </div>
@@ -103,63 +103,9 @@ const gaugeColor = computed(() => {
 
 const tempColor = computed(() => {
   const t = getVal("battery_temperature");
-  if (t >= 45) return "var(--danger)";
-  if (t >= 38) return "var(--warning)";
-  return "var(--text-primary)";
+  if (t >= 45) return "#f87171"; // danger
+  if (t >= 38) return "#fb923c"; // warning
+  return "#f1f5f9"; // text-primary
 });
 </script>
 
-<style scoped>
-.gauge-section {
-  margin-bottom: 24px;
-}
-
-.metrics-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-}
-
-.metric-block {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.03);
-  padding: 12px 16px;
-  border-radius: var(--radius-md);
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.metric-label {
-  font-size: 0.72rem;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-}
-
-.metric-value {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--text-primary);
-}
-
-.metric-unit {
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: var(--text-secondary);
-}
-
-.text-success {
-  color: var(--success);
-}
-
-.text-danger {
-  color: var(--load);
-}
-
-@media (max-width: 900px) {
-  .metrics-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-</style>

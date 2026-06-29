@@ -1,26 +1,26 @@
 <template>
-  <div class="card card--info fade-in-up">
-    <div class="section-header">
-      <span class="section-header__icon">📈</span>
-      <h2 class="section-header__title">Live Power Trends</h2>
-      <div class="chart-toggles">
-        <label class="toggle-item solar">
-          <input type="checkbox" v-model="visibleSeries.solar" /> Solar
+  <div class="bg-card border border-border rounded-[16px] p-6 shadow-card animate-fadeInUp border-l-[3px] border-l-info hover:shadow-[0_0_24px_rgba(56,189,248,0.25)] relative overflow-hidden transition-all duration-250 ease-out hover:-translate-y-[2px]">
+    <div class="flex items-center gap-3 mb-5 pb-3 border-b border-border">
+      <span class="text-[1.4rem]">📈</span>
+      <h2 class="text-[1.1rem] font-bold tracking-[-0.01em]">Live Power Trends</h2>
+      <div class="flex flex-wrap gap-x-3 gap-y-2 ml-auto text-[0.75rem]">
+        <label class="flex items-center gap-1.5 cursor-pointer px-2 py-1 rounded border border-border transition-colors duration-200 select-none hover:bg-white/[0.03] text-solar">
+          <input type="checkbox" v-model="visibleSeries.solar" class="cursor-pointer" /> Solar
         </label>
-        <label class="toggle-item battery">
-          <input type="checkbox" v-model="visibleSeries.battery" /> Battery
+        <label class="flex items-center gap-1.5 cursor-pointer px-2 py-1 rounded border border-border transition-colors duration-200 select-none hover:bg-white/[0.03] text-battery">
+          <input type="checkbox" v-model="visibleSeries.battery" class="cursor-pointer" /> Battery
         </label>
-        <label class="toggle-item grid">
-          <input type="checkbox" v-model="visibleSeries.grid" /> Grid
+        <label class="flex items-center gap-1.5 cursor-pointer px-2 py-1 rounded border border-border transition-colors duration-200 select-none hover:bg-white/[0.03] text-grid">
+          <input type="checkbox" v-model="visibleSeries.grid" class="cursor-pointer" /> Grid
         </label>
-        <label class="toggle-item load">
-          <input type="checkbox" v-model="visibleSeries.load" /> Load
+        <label class="flex items-center gap-1.5 cursor-pointer px-2 py-1 rounded border border-border transition-colors duration-200 select-none hover:bg-white/[0.03] text-load">
+          <input type="checkbox" v-model="visibleSeries.load" class="cursor-pointer" /> Load
         </label>
-        <label class="toggle-item light-load">
-          <input type="checkbox" v-model="visibleSeries.lightLoad" /> Light Load
+        <label class="flex items-center gap-1.5 cursor-pointer px-2 py-1 rounded border border-border transition-colors duration-200 select-none hover:bg-white/[0.03] text-info">
+          <input type="checkbox" v-model="visibleSeries.lightLoad" class="cursor-pointer" /> Light Load
         </label>
-        <label class="toggle-item smart-load">
-          <input type="checkbox" v-model="visibleSeries.smartLoad" /> Smart Load
+        <label class="flex items-center gap-1.5 cursor-pointer px-2 py-1 rounded border border-border transition-colors duration-200 select-none hover:bg-white/[0.03] text-warning">
+          <input type="checkbox" v-model="visibleSeries.smartLoad" class="cursor-pointer" /> Smart Load
         </label>
       </div>
     </div>
@@ -28,7 +28,7 @@
     <div class="chart-container" v-if="history.timestamps.length > 0">
       <Line :data="chartData" :options="chartOptions" :plugins="[verticalLinePlugin]" />
     </div>
-    <div class="chart-placeholder" v-else>
+    <div class="flex items-center justify-center h-[260px] text-text-muted text-[0.85rem]" v-else>
       <p>Awaiting live metrics to plot trend...</p>
     </div>
   </div>
@@ -257,60 +257,3 @@ const chartOptions = {
 };
 </script>
 
-<style scoped>
-.chart-toggles {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 12px;
-  margin-left: auto;
-  font-size: 0.75rem;
-}
-
-.toggle-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
-  padding: 4px 8px;
-  border-radius: 4px;
-  border: 1px solid var(--border);
-  transition: background 0.2s;
-  user-select: none;
-}
-
-.toggle-item:hover {
-  background: rgba(255, 255, 255, 0.03);
-}
-
-.toggle-item input {
-  cursor: pointer;
-}
-
-.solar {
-  color: var(--solar);
-}
-.battery {
-  color: var(--battery);
-}
-.grid {
-  color: var(--grid);
-}
-.load {
-  color: var(--load);
-}
-.light-load {
-  color: var(--info);
-}
-.smart-load {
-  color: var(--warning);
-}
-
-.chart-placeholder {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 260px;
-  color: var(--text-muted);
-  font-size: 0.85rem;
-}
-</style>
